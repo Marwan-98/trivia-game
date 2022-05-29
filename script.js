@@ -1,5 +1,4 @@
 let option = document.querySelectorAll(".dropdown-item");
-
 let startBtn = document.querySelector("#startBtn");
 
 let categoryBtn = document.querySelector("#categoryBtn");
@@ -7,6 +6,10 @@ let categoryBtn = document.querySelector("#categoryBtn");
 let difficultyBtn = document.querySelector("#difficultyBtn");
 
 let highScore = document.querySelector("#highScore");
+
+const toastTrigger = document.querySelector("#startBtn");
+
+const toastLiveExample = document.getElementById("liveToast");
 
 let options = [];
 let answers = [];
@@ -30,7 +33,8 @@ option.forEach((element) => {
 startBtn.addEventListener("click", getQuiz);
 
 function showGenre(e) {
-  e.path[4].children[0].children[0].innerText = e.target.innerText;
+  e.currentTarget.parentElement.parentElement.previousElementSibling.innerText =
+    e.target.innerText;
 
   switch (e.target.innerText) {
     case "General Knowledge":
@@ -57,22 +61,30 @@ function showGenre(e) {
 }
 
 async function getQuiz() {
-  console.log("working");
-  await fetch(
-    `https://opentdb.com/api.php?amount=10&category=${options[0]}&difficulty=${options[1]}&type=multiple`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      dataArray = data;
-      writeQuiz(dataArray, num);
-    });
+  if (options.length == 2) {
+    await fetch(
+      `https://opentdb.com/api.php?amount=10&category=${options[0]}&difficulty=${options[1]}&type=multiple`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        dataArray = data;
+        writeQuiz(dataArray, num);
+      });
+  } else {
+    order();
+  }
+}
+
+function order() {
+  const toast = new bootstrap.Toast(toastLiveExample);
+  toast.show();
 }
 
 function writeQuiz(data, num) {
   if (num < data.results.length) {
     document.querySelector(".quiz").setAttribute("style", "display: block;");
     let correctAnswer = data.results[num].correct_answer;
-    answers.push(data.results[num].correct_answer);
+    answers.push(correctAnswer);
     for (let i = 0; i < data.results[num].incorrect_answers.length; i++) {
       answers.push(data.results[num].incorrect_answers[i]);
     }
