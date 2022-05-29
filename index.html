@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container text-center">
+      <h1>Trivia Mania</h1>
+      <div
+        class="my-5 py-5 d-flex flex-md-row flex-column justify-content-center justify-content-md-around align-items-center menu"
+      >
+        <div class="m-3">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="categoryBtn"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Choose Category
+            </button>
+            <ul class="dropdown-menu categoryBtn" aria-labelledby="categoryBtn">
+              <li><a class="dropdown-item" href="#">General Knowledge</a></li>
+              <li><a class="dropdown-item" href="#">Sports</a></li>
+              <li><a class="dropdown-item" href="#">History</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-3">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="difficultyBtn"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Choose Difficulty
+            </button>
+            <ul
+              class="dropdown-menu difficultyBtn"
+              aria-labelledby="difficultyBtn"
+            >
+              <li><a class="dropdown-item" href="#">Easy</a></li>
+              <li><a class="dropdown-item" href="#">Medium</a></li>
+              <li><a class="dropdown-item" href="#">Hard</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-3">
+          <button class="btn btn-primary px-5" id="startBtn">START</button>
+        </div>
+      </div>
+      <div class="m-3" id="highScore"></div>
+    </div>
+    <div class="container quiz"></div>
+    <div
+      class="container text-center mt-5 pt-5 end"
+      style="display: none"
+    ></div>
+    <script src="script.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
