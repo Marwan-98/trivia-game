@@ -1,3 +1,31 @@
+body {
+  background: #161925;
+  color: #fdfffc;
+}
+
+.btn-primary {
+  background: #235789 !important;
+  border-color: #235789 !important;
+}
+
+.card {
+  background: #161925;
+  border: solid 1px #fdfffc;
+  color: #fdfffc;
+}
+
+.right {
+  background: #3ec300;
+}
+
+.wrong {
+  background: #c1292e;
+}
+
+.card-body {
+  border-radius: 5px;
+}
+
 h1 {
   font-size: 80px;
 }

@@ -13,6 +13,7 @@ const toastLiveExample = document.getElementById("liveToast");
 
 let options = [];
 let answers = [];
+let answersArray;
 let dataArray;
 let num = 0;
 let rightQuestions = 0;
@@ -133,6 +134,8 @@ function writeQuiz(data, num) {
       </div>
     </div>
   </div>`;
+    answersArray = Array.from(document.querySelectorAll(".card-body"));
+    answersArray.shift();
   } else {
     if (rightQuestions > highScoreNum) {
       highScoreNum = rightQuestions;
@@ -174,31 +177,29 @@ function randomize() {
 }
 
 function check(id, correctAnswer, data) {
-  chosenAnswer = document.getElementById(id).innerText;
-  if (chosenAnswer == correctAnswer) {
-    rightQuestions += 1;
-    document.getElementById(id).classList.add("anim");
-    document.getElementById(id).classList.add("bg-success");
-    for (let i = 1; i <= 4; i++) {
-      document.getElementById(`answer-${i}`).classList.add("text-white");
-      if (
-        !document.getElementById(`answer-${i}`).classList.contains("bg-success")
-      ) {
-        document.getElementById(`answer-${i}`).classList.add("bg-danger");
+  chosenAnswer = document.getElementById(id);
+  if (chosenAnswer.innerText == correctAnswer) {
+    chosenAnswer.parentElement.classList.add("anim");
+    chosenAnswer.classList.add("right");
+    answersArray.forEach((item) => {
+      item.style = "pointer-events: none";
+      if (!item.classList.contains("right")) {
+        item.classList.add("wrong");
       }
-    }
+    });
     num += 1;
+    rightQuestions += 1;
     setTimeout(() => writeQuiz(dataArray, num), 2000);
   } else {
-    document.getElementById(id).classList.add("shake-horizontal");
-    for (let i = 1; i <= 4; i++) {
-      document.getElementById(`answer-${i}`).classList.add("text-white");
-      if (document.getElementById(`answer-${i}`).innerText === correctAnswer) {
-        document.getElementById(`answer-${i}`).classList.add("bg-success");
+    chosenAnswer.parentElement.classList.add("shake-horizontal");
+    answersArray.forEach((item) => {
+      item.style = "pointer-events: none";
+      if (item.innerText === correctAnswer) {
+        item.classList.add("right");
       } else {
-        document.getElementById(`answer-${i}`).classList.add("bg-danger");
+        item.classList.add("wrong");
       }
-    }
+    });
     num += 1;
     setTimeout(() => writeQuiz(dataArray, num), 2000);
   }
