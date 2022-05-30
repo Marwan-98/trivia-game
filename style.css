@@ -3,6 +3,25 @@ body {
   color: #fdfffc;
 }
 
+.dropdown-menu {
+  max-height: 200px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fdfffc;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #235789;
+}
+
 .btn-primary {
   background: #235789 !important;
   border-color: #235789 !important;
