@@ -8,6 +8,7 @@ const toastLiveExample = document.getElementById("liveToast");
 const quiz = document.querySelector(".quiz");
 const menu = document.querySelector(".menu");
 const end = document.querySelector(".end");
+const bar = document.querySelector(".time-bar");
 
 let options = [];
 let answers = [];
@@ -16,6 +17,7 @@ let dataArray;
 let num = 0;
 let rightQuestions = 0;
 let highScoreNum;
+let newQuestion;
 
 if (localStorage.getItem("highScore") === null) {
   localStorage.setItem("highScore", 0);
@@ -122,6 +124,7 @@ function order() {
 
 function writeQuiz(data, num) {
   if (num < data.results.length) {
+    bar.style = "display: block;";
     quiz.setAttribute("style", "display: block;");
     let correctAnswer = data.results[num].correct_answer;
     answers.push(correctAnswer);
@@ -143,14 +146,14 @@ function writeQuiz(data, num) {
   <div class="row">
     <div class="col-6 mb-3">
     <div class="card">
-        <div class="card-body" id="answer-1" onClick='check("answer-1", "${correctAnswer}", "${dataArray}")' role="button">
+        <div class="card-body" id="answer-1" onClick='check("answer-1", "${correctAnswer}", "${dataArray}", "${num}")' role="button">
           <h5 class="card-title">${randomize()}</h5>
         </div>
       </div>
       </div>
       <div class="col-6 mb1">
       <div class="card">
-        <div class="card-body" id="answer-2" onClick='check("answer-2", "${correctAnswer}", "${dataArray}")' role="button">
+        <div class="card-body" id="answer-2" onClick='check("answer-2", "${correctAnswer}", "${dataArray}", "${num}")' role="button">
           <h5 class="card-title">${randomize()}</h5>
         </div>
         </div>
@@ -159,24 +162,31 @@ function writeQuiz(data, num) {
   <div class="row">
   <div class="col-6 mb-3">
   <div class="card">
-        <div class="card-body" id="answer-3" onClick='check("answer-3", "${correctAnswer}", "${dataArray}")' role="button">
+        <div class="card-body" id="answer-3" onClick='check("answer-3", "${correctAnswer}", "${dataArray}", "${num}")' role="button">
         <h5 class="card-title">${randomize()}</h5>
         </div>
         </div>
         </div>
     <div class="col-6 mb-3">
       <div class="card">
-        <div class="card-body" id="answer-4" onClick="check('answer-4', '${correctAnswer}', '${dataArray}')" role="button">
+        <div class="card-body" id="answer-4" onClick='check("answer-4", "${correctAnswer}", "${dataArray}", "${num}")' role="button">
           <h5 class="card-title">${randomize()}</h5>
       </div>
     </div>
   </div>`;
     answersArray = Array.from(document.querySelectorAll(".card-body"));
     answersArray.shift();
+    num++;
+    newQuestion = setInterval(() => {
+      clearInterval(newQuestion);
+      bar.classList.remove("time-bar");
+      bar.offsetWidth;
+      writeQuiz(dataArray, num);
+      bar.classList.add("time-bar");
+    }, 10000);
   } else {
+    bar.style = "display: none;";
     if (rightQuestions > highScoreNum) {
-      console.log(highScoreNum);
-      console.log(rightQuestions);
       highScoreNum = rightQuestions;
       localStorage.setItem("highScore", highScoreNum);
     }
@@ -215,8 +225,10 @@ function randomize() {
   return answer;
 }
 
-function check(id, correctAnswer, data) {
+function check(id, correctAnswer, data, numCheck) {
   chosenAnswer = document.getElementById(id);
+  num = numCheck;
+  num++;
   if (chosenAnswer.innerText == correctAnswer) {
     chosenAnswer.parentElement.classList.add("anim");
     chosenAnswer.classList.add("right");
@@ -226,9 +238,14 @@ function check(id, correctAnswer, data) {
         item.classList.add("wrong");
       }
     });
-    num += 1;
     rightQuestions += 1;
-    setTimeout(() => writeQuiz(dataArray, num), 2000);
+    setTimeout(() => {
+      clearInterval(newQuestion);
+      bar.classList.remove("time-bar");
+      bar.offsetWidth;
+      writeQuiz(dataArray, num);
+      bar.classList.add("time-bar");
+    }, 2000);
   } else {
     chosenAnswer.parentElement.classList.add("shake-horizontal");
     answersArray.forEach((item) => {
@@ -239,7 +256,12 @@ function check(id, correctAnswer, data) {
         item.classList.add("wrong");
       }
     });
-    num += 1;
-    setTimeout(() => writeQuiz(dataArray, num), 2000);
+    setTimeout(() => {
+      clearInterval(newQuestion);
+      bar.classList.remove("time-bar");
+      bar.offsetWidth;
+      writeQuiz(dataArray, num);
+      bar.classList.add("time-bar");
+    }, 2000);
   }
 }
